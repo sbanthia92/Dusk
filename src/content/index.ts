@@ -76,6 +76,25 @@ let isDarkMode = false;
 let observer: MutationObserver | null = null;
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
+// Chrome compositing bug: when html has filter:invert, certain carousel images
+// render as opaque black. Force-reloading them from cache fixes the compositor.
+function recompositeImages(): void {
+  document.querySelectorAll<HTMLImageElement>('img').forEach((img) => {
+    if (img.complete && img.naturalWidth === 0 && img.src) {
+      const src = img.src;
+      img.src = '';
+      img.src = src;
+    }
+  });
+}
+
+function triggerRecomposite(): void {
+  // Two passes: immediately for already-rendered images, then again after
+  // lazy-loaded images have had time to enter the viewport and fetch.
+  recompositeImages();
+  setTimeout(recompositeImages, 800);
+}
+
 function injectStyles(): void {
   if (document.getElementById(STYLE_ID)) return;
   const style = document.createElement('style');
@@ -111,6 +130,7 @@ function disconnectObserver(): void {
 function enableDarkMode(): void {
   isDarkMode = true;
   injectStyles();
+  triggerRecomposite();
   connectObserver();
 }
 
