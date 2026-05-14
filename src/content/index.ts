@@ -1,66 +1,67 @@
+// Dark CSS: invert the page, restore media, preserve Amazon's dark chrome
 const DARK_CSS = `
   html {
     filter: invert(1) hue-rotate(180deg) !important;
   }
+
+  /*
+   * Media — counter-invert so they render in original colors.
+   * Two inversions (html + this rule) = identity.
+   */
   img,
   video,
   iframe,
   canvas,
+  picture,
   [style*="background-image"],
   .s-image,
   #landingImage,
-  #imgTagWrapperId img,
-  [data-dusk-preserve] {
+  #imgTagWrapperId img {
     filter: invert(1) hue-rotate(180deg) !important;
   }
+
+  /*
+   * Amazon's dark navigation chrome (#131921 / #232f3e backgrounds).
+   * Counter-invert the nav containers so they stay dark.
+   */
+  #navbar,
+  #nav-belt,
+  #nav-main,
+  #nav-subnav,
+  #leftNav,
+  #navFooter,
+  .nav-fill,
+  .nav-progressive-attribute {
+    filter: invert(1) hue-rotate(180deg) !important;
+  }
+
+  /*
+   * Images and media inside the dark nav: the nav already counter-inverts,
+   * so drop the img rule here — html + nav = double invert = original colors.
+   */
+  #navbar img,          #navbar video,   #navbar canvas,   #navbar picture,
+  #nav-belt img,        #nav-belt video,
+  #nav-main img,        #nav-main video,
+  #nav-subnav img,      #nav-subnav video,
+  #leftNav img,         #leftNav video,
+  #navFooter img,       #navFooter video,
+  .nav-fill img,        .nav-fill video {
+    filter: none !important;
+  }
 `;
+
 const STYLE_ID = 'dusk-styles';
-const PRESERVE_ATTR = 'data-dusk-preserve';
-// Elements with luminance below this threshold are already dark — counter-invert them so they stay dark
-const DARK_THRESHOLD = 0.1;
 
 let isDarkMode = false;
 let observer: MutationObserver | null = null;
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-
-function getLuminance(r: number, g: number, b: number): number {
-  const [rs, gs, bs] = [r, g, b].map((c) => {
-    const s = c / 255;
-    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
-}
-
-function parseRgb(color: string): [number, number, number, number] | null {
-  const m = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
-  if (!m) return null;
-  return [parseInt(m[1]), parseInt(m[2]), parseInt(m[3]), m[4] !== undefined ? parseFloat(m[4]) : 1];
-}
-
-function markDarkElements(root: Element = document.documentElement): void {
-  root.querySelectorAll<HTMLElement>('*').forEach((el) => {
-    const bg = getComputedStyle(el).backgroundColor;
-    const parsed = parseRgb(bg);
-    if (!parsed) return;
-    const [r, g, b, a] = parsed;
-    if (a < 0.1) return; // transparent — nothing to preserve
-    if (getLuminance(r, g, b) < DARK_THRESHOLD) {
-      el.setAttribute(PRESERVE_ATTR, '');
-    }
-  });
-}
-
-function clearDarkMarks(): void {
-  document.querySelectorAll(`[${PRESERVE_ATTR}]`).forEach((el) => el.removeAttribute(PRESERVE_ATTR));
-}
 
 function injectStyles(): void {
   if (document.getElementById(STYLE_ID)) return;
   const style = document.createElement('style');
   style.id = STYLE_ID;
   style.textContent = DARK_CSS;
-  const target = document.head ?? document.documentElement;
-  target.appendChild(style);
+  (document.head ?? document.documentElement).appendChild(style);
 }
 
 function removeStyles(): void {
@@ -69,16 +70,10 @@ function removeStyles(): void {
 
 function connectObserver(): void {
   if (observer) return;
-  observer = new MutationObserver((mutations) => {
+  observer = new MutationObserver(() => {
     if (debounceTimer) clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      if (!isDarkMode) return;
-      injectStyles();
-      for (const mutation of mutations) {
-        mutation.addedNodes.forEach((node) => {
-          if (node instanceof Element) markDarkElements(node);
-        });
-      }
+      if (isDarkMode) injectStyles();
     }, 150);
   });
   observer.observe(document.documentElement, { childList: true, subtree: true });
@@ -96,14 +91,12 @@ function disconnectObserver(): void {
 function enableDarkMode(): void {
   isDarkMode = true;
   injectStyles();
-  markDarkElements();
   connectObserver();
 }
 
 function disableDarkMode(): void {
   isDarkMode = false;
   removeStyles();
-  clearDarkMarks();
   disconnectObserver();
 }
 
