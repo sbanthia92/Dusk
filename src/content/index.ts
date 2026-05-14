@@ -1,6 +1,10 @@
 const DARK_CSS = `
   /* ── 1. Invert the whole page ── */
-  html {
+  /*
+   * Using body (not html) — applying filter to html breaks Chrome's
+   * IntersectionObserver, preventing lazy-loaded images from ever rendering.
+   */
+  body {
     filter: invert(1) hue-rotate(180deg) !important;
   }
 
@@ -96,8 +100,9 @@ function parseRgb(color: string): [number, number, number, number] | null {
 function markDarkElements(root: Element = document.documentElement): void {
   // Only scan block-level containers — skip html/body (would cancel all dark mode)
   // and inline/text elements that can't meaningfully have background colors.
+  // Omit li/ol — carousel items use li and can produce false positives
   const candidates = root.querySelectorAll<HTMLElement>(
-    'div, section, article, aside, header, footer, nav, main, ul, ol, li, form'
+    'div, section, article, aside, header, footer, nav, main, form'
   );
 
   candidates.forEach((el) => {
