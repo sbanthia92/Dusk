@@ -1,0 +1,26 @@
+{
+  "name": "dusk-dark-mode-amazon",
+  "version": "1.0.0",
+  "description": "Elegant dark mode for Amazon. Per-site toggle, zero data collection, no sign-in required.",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src"
+  },
+  "dependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.23",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4"
+  }
+}
