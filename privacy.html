@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dusk – Privacy Policy</title>
+    <style>
+      :root {
+        --bg: #111111;
+        --surface: #1a1a1a;
+        --text: #e0e0e0;
+        --subtext: #888888;
+        --accent: #f0a500;
+        --border: #2a2a2a;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 680px;
+        margin: 0 auto;
+      }
+
+      header {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+        margin-bottom: 40px;
+      }
+
+      header h1 {
+        font-size: 28px;
+        color: var(--accent);
+        margin-bottom: 4px;
+      }
+
+      header p {
+        color: var(--subtext);
+        font-size: 14px;
+      }
+
+      h2 {
+        font-size: 18px;
+        color: var(--text);
+        margin-top: 36px;
+        margin-bottom: 12px;
+      }
+
+      p {
+        color: var(--text);
+        margin-bottom: 12px;
+      }
+
+      .highlight {
+        background: var(--surface);
+        border-left: 3px solid var(--accent);
+        padding: 14px 18px;
+        border-radius: 4px;
+        margin: 20px 0;
+        color: var(--text);
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        margin-top: 48px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        color: var(--subtext);
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Dusk – Privacy Policy</h1>
+        <p>Last updated: May 2026</p>
+      </header>
+
+      <section>
+        <h2>Overview</h2>
+        <p>
+          Dusk is a Chrome extension that applies a dark mode style to Amazon. This policy
+          describes what data the extension does and does not collect.
+        </p>
+        <div class="highlight">
+          Dusk collects no personal data of any kind. Nothing you do while using this extension
+          is ever transmitted to any external server.
+        </div>
+      </section>
+
+      <section>
+        <h2>What We Collect</h2>
+        <p>
+          Nothing. Dusk does not collect, store remotely, or transmit any personal information,
+          browsing history, search queries, purchase data, or usage analytics.
+        </p>
+      </section>
+
+      <section>
+        <h2>How Data Is Used</h2>
+        <p>
+          It isn't. The only data the extension touches is a single boolean preference (dark mode
+          on or off) per domain. This preference is stored locally on your device using
+          <code>chrome.storage.sync</code> and is never read by or sent to any server operated
+          by us or any third party.
+        </p>
+      </section>
+
+      <section>
+        <h2>Third Parties</h2>
+        <p>
+          Dusk does not integrate with, send data to, or load resources from any third-party
+          service. There are no analytics libraries, no advertising SDKs, and no tracking pixels
+          of any kind included in this extension.
+        </p>
+      </section>
+
+      <section>
+        <h2>Chrome Sync Note</h2>
+        <p>
+          If you have Chrome Sync enabled in your browser, Google may sync your
+          <code>chrome.storage.sync</code> data across your devices as part of their standard
+          sync infrastructure. This is governed by
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>,
+          not ours. The data synced contains only your per-domain on/off toggle preference —
+          nothing else.
+        </p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>
+          If you have questions about this policy, you can reach us at
+          <a href="mailto:sbanthia92@gmail.com">sbanthia92@gmail.com</a>.
+        </p>
+      </section>
+
+      <footer>
+        <p>Dusk – Dark Mode for Amazon &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; Copyright © 2026 Shubham Banthia</p>
+      </footer>
+    </div>
+  </body>
+</html>
