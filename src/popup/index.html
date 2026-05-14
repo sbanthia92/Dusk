@@ -1,1 +1,22 @@
-<!-- placeholder -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dusk</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="domain-label"></div>
+      <div id="unsupported-message" hidden>Not a supported site</div>
+      <label class="toggle-wrapper" id="toggle-wrapper">
+        <input type="checkbox" id="dark-toggle" />
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+        </span>
+      </label>
+    </div>
+    <script type="module" src="popup.ts"></script>
+  </body>
+</html>

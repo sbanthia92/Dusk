@@ -1,1 +1,87 @@
-/* placeholder */
+:root {
+  --bg: #1a1a1a;
+  --text: #e8e8e8;
+  --subtext: #888;
+  --accent: #f0a500;
+  --track-off: #444;
+  --thumb: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 280px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  padding: 20px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#domain-label {
+  color: var(--subtext);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+#unsupported-message {
+  color: var(--subtext);
+  font-size: 13px;
+  text-align: center;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle-wrapper input[type='checkbox'] {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--track-off);
+  transition: background 0.2s;
+  position: relative;
+  display: inline-block;
+}
+
+.toggle-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--thumb);
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transition: transform 0.2s;
+}
+
+.toggle-wrapper input:checked + .toggle-track {
+  background: var(--accent);
+}
+
+.toggle-wrapper input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(20px);
+}
